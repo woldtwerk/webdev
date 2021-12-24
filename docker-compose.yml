@@ -1,0 +1,115 @@
+version: "3.9"
+services:
+  nginx:
+    container_name: nginx
+    image: nginx
+    depends_on:
+      - php72
+      - php73
+      - php74
+      - php80
+      - php81
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./sites:/var/www/html/
+      - ~/sites:/sites/
+      - ./certs:/etc/nginx/certs
+      - tmp:/tmp
+    networks:
+      - webdev
+  php81:
+    container_name: php81
+    image: wodby/php:8.1-dev
+    env_file:
+      - config/php.env
+      - config/php81.env
+    volumes:
+      - ./sites:/var/www/html/
+      - ~/sites:/sites/
+      - tmp:/tmp
+    networks:
+      - webdev
+  php80:
+    container_name: php81
+    image: wodby/php:8.0-dev
+    env_file:
+      - config/php.env
+      - config/php80.env
+    volumes:
+      - ./sites:/var/www/html/
+      - ~/sites:/sites/
+      - tmp:/tmp
+    networks:
+      - webdev
+  php74:
+    container_name: php74
+    image: wodby/php:7.4-dev
+    env_file:
+      - config/php.env
+      - config/php74.env
+    volumes:
+      - ./sites:/var/www/html/
+      - ~/sites:/sites/
+      - tmp:/tmp
+    networks:
+      - webdev
+  php73:
+    container_name: php73
+    image: wodby/php:7.3-dev
+    env_file:
+      - config/php.env
+      - config/php73.env
+    volumes:
+      - ./sites:/var/www/html/
+      - ~/sites:/sites/
+      - tmp:/tmp
+    networks:
+      - webdev
+  php72:
+    container_name: php72
+    image: wodby/php:7.2-dev
+    env_file:
+      - config/php.env
+      - config/php72.env
+    volumes:
+      - ./sites:/var/www/html/
+      - ~/sites:/sites/
+      - tmp:/tmp
+    networks:
+      - webdev
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+    networks:
+      - webdev
+  mariadb:
+    container_name: mariadb
+    image: mariadb:latest
+    volumes:
+      - mariadb:/var/lib/mysql
+    environment:
+      MARIADB_ALLOW_EMPTY_ROOT_PASSWORD: 'yes'
+    networks:
+      - webdev
+    ports:
+      - 3306:3306
+  # busybox:
+  #   container_name: busybox
+  #   image: busybox
+  #   tty: true
+  #   networks:
+  #     - webdev
+networks:
+  webdev:
+
+volumes:
+  mariadb:
+    name: mariadb
+  tmp:
+    name: webdev_tmp

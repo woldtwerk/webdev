@@ -1,0 +1,17 @@
+version: "3.9"
+services:
+  php:
+    env_file:
+      - config/php.env
+    volumes:
+      - ./sites:/var/www/html/
+      - ~/sites:/sites/
+      - tmp:/tmp
+    networks:
+      - webdev
+networks:
+  webdev:
+
+volumes:
+  tmp:
+    name: webdev_tmp
