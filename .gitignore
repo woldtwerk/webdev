@@ -1,12 +1,14 @@
 nginx/conf.d/*.conf
 !nginx/conf.d/default.conf
 !nginx/conf.d/mailhog.conf
+!nginx/conf.d/imgproxy.conf
 !nginx/conf.d/php72.conf
 !nginx/conf.d/php73.conf
 !nginx/conf.d/php74.conf
 !nginx/conf.d/php80.conf
 !nginx/conf.d/php81.conf
 
+vhosts
 certs
 docker-compose copy.yml
 commands.sh
