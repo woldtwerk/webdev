@@ -24,63 +24,43 @@ services:
   php81:
     container_name: php81
     image: wodby/php:8.1-dev
+    extends: 
+      file: php.yml
+      service: php
     env_file:
-      - config/php.env
       - config/php81.env
-    volumes:
-      - ./sites:/var/www/html/
-      - ~/sites:/sites/
-      - tmp:/tmp
-    networks:
-      - webdev
   php80:
-    container_name: php81
+    container_name: php80
     image: wodby/php:8.0-dev
+    extends: 
+      file: php.yml
+      service: php
     env_file:
-      - config/php.env
       - config/php80.env
-    volumes:
-      - ./sites:/var/www/html/
-      - ~/sites:/sites/
-      - tmp:/tmp
-    networks:
-      - webdev
   php74:
     container_name: php74
     image: wodby/php:7.4-dev
+    extends: 
+      file: php.yml
+      service: php
     env_file:
-      - config/php.env
       - config/php74.env
-    volumes:
-      - ./sites:/var/www/html/
-      - ~/sites:/sites/
-      - tmp:/tmp
-    networks:
-      - webdev
   php73:
     container_name: php73
     image: wodby/php:7.3-dev
+    extends: 
+      file: php.yml
+      service: php
     env_file:
-      - config/php.env
       - config/php73.env
-    volumes:
-      - ./sites:/var/www/html/
-      - ~/sites:/sites/
-      - tmp:/tmp
-    networks:
-      - webdev
   php72:
     container_name: php72
     image: wodby/php:7.2-dev
+    extends: 
+      file: php.yml
+      service: php
     env_file:
-      - config/php.env
       - config/php72.env
-    volumes:
-      - ./sites:/var/www/html/
-      - ~/sites:/sites/
-      - tmp:/tmp
-    networks:
-      - webdev
   mailhog:
     container_name: mailhog
     image: mailhog/mailhog

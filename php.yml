@@ -9,9 +9,9 @@ services:
       - tmp:/tmp
     networks:
       - webdev
-networks:
-  webdev:
+# networks:
+#   webdev:
 
-volumes:
-  tmp:
-    name: webdev_tmp
+# volumes:
+#   tmp:
+#     name: webdev_tmp
