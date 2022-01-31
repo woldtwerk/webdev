@@ -1,5 +1,6 @@
 version: "3.9"
 services:
+  ######## Webserver
   nginx:
     container_name: nginx
     image: nginx
@@ -22,6 +23,7 @@ services:
       - tmp:/tmp
     networks:
       - webdev
+  ######## PHP
   php81:
     container_name: php81
     image: wodby/php:8.1-dev
@@ -62,13 +64,7 @@ services:
       service: php
     env_file:
       - config/php72.env
-  mailhog:
-    container_name: mailhog
-    image: mailhog/mailhog
-    ports:
-      - 1025:1025
-    networks:
-      - webdev
+  ######## Database
   mariadb:
     container_name: mariadb
     image: mariadb:latest
@@ -80,6 +76,14 @@ services:
       - webdev
     ports:
       - 3306:3306
+  ######## Misc
+  mailhog:
+    container_name: mailhog
+    image: mailhog/mailhog
+    ports:
+      - 1025:1025
+    networks:
+      - webdev
   imgproxy:
     container_name: imgproxy
     image: darthsim/imgproxy:latest
@@ -89,6 +93,17 @@ services:
       - "8080:8080"
     env_file:
       - config/imgproxy.env
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:latest
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer:/data
+    ports:
+      - "8000:8000"
+      - "9443:9443"
+    networks:
+      - webdev
   # busybox:
   #   container_name: busybox
   #   image: busybox
@@ -103,3 +118,5 @@ volumes:
     name: mariadb
   tmp:
     name: webdev_tmp
+  portainer:
+    name: webdev_portainer

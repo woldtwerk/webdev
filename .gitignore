@@ -1,6 +1,7 @@
 nginx/conf.d/*.conf
 !nginx/conf.d/default.conf
 !nginx/conf.d/mailhog.conf
+!nginx/conf.d/portainer.conf
 !nginx/conf.d/imgproxy.conf
 !nginx/conf.d/php72.conf
 !nginx/conf.d/php73.conf
