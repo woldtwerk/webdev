@@ -7,11 +7,6 @@ services:
       - ./sites:/var/www/html/
       - ~/sites:/sites/
       - tmp:/tmp
+      - ./scripts/drush:/usr/bin/drush
     networks:
       - webdev
-# networks:
-#   webdev:
-
-# volumes:
-#   tmp:
-#     name: webdev_tmp
