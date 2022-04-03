@@ -4,6 +4,7 @@ services:
   nginx:
     container_name: nginx
     image: nginx
+    restart: unless-stopped
     depends_on:
       - php72
       - php73
@@ -14,6 +15,8 @@ services:
     ports:
       - 80:80
       - 443:443
+    networks:
+      - webdev
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
       - ./nginx/conf.d:/etc/nginx/conf.d
@@ -22,8 +25,6 @@ services:
       - ~/sites:/sites/
       - ./certs:/etc/nginx/certs
       - tmp:/tmp
-    networks:
-      - webdev
   ######## PHP
   php81:
     container_name: php81
@@ -69,6 +70,7 @@ services:
   mariadb:
     container_name: mariadb
     image: mariadb:latest
+    restart: unless-stopped
     volumes:
       - mariadb:/var/lib/mysql
     environment:
@@ -81,6 +83,7 @@ services:
   mailhog:
     container_name: mailhog
     image: mailhog/mailhog
+    restart: unless-stopped
     ports:
       - 1025:1025
     networks:
@@ -88,15 +91,15 @@ services:
   imgproxy:
     container_name: imgproxy
     image: darthsim/imgproxy:latest
+    restart: unless-stopped
     networks:
       - webdev
-    ports:
-      - "8080:8080"
     env_file:
       - config/imgproxy.env
   portainer:
     container_name: portainer
     image: portainer/portainer-ce:latest
+    restart: unless-stopped
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer:/data
@@ -111,6 +114,8 @@ services:
   #   tty: true
   #   networks:
   #     - webdev
+  #   dns_search:
+  #     nginx
 networks:
   webdev:
 

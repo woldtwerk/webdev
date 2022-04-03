@@ -1,6 +1,7 @@
 version: "3.9"
 services:
   php:
+    restart: unless-stopped
     env_file:
       - config/php.env
     volumes:
@@ -8,5 +9,6 @@ services:
       - ~/sites:/sites/
       - tmp:/tmp
       - ./scripts/drush:/usr/bin/drush
+      - ~/.ssh/:/home/wodby/.ssh/
     networks:
       - webdev
