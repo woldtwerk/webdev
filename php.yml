@@ -6,7 +6,7 @@ services:
       - config/php.env
     volumes:
       - ./sites:/var/www/html/
-      - ~/sites:/sites/
+      - ~/Sites:/Sites/
       - tmp:/tmp
       - ./scripts/drush:/usr/bin/drush
       - ~/.ssh/:/home/wodby/.ssh/

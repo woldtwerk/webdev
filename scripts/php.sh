@@ -2,17 +2,42 @@
 
 path=`pwd`
 rel="${path/`echo $HOME`/""}"
-FILE=.php-version
-phpversion="8.1"
-pattern=^[7-8]\.[0-9]$
+LATEST="8.1"
 
-if [ -f "$FILE" ]; then
-  tmp=`cat $FILE`
-  if [[ "$tmp" =~ $pattern ]]; then
-    phpversion=${BASH_REMATCH[0]}
+getPhpVersionDir() {
+  if [ -f ".php-version" ]; then
+    printf '%s\n' "${PWD}"
+  elif [ "$PWD" = / ]; then
+    # printf '%s\n' ""
+    return
+  else
+    # a subshell so that we don't affect the caller's $PWD
+    (cd .. && getPhpVersionDir )
   fi
-fi 
+}
+
+getVersion() {
+  echo $( cat "$1/.php-version" )
+}
+
+phpversiondir=$( getPhpVersionDir )
+# echo $phpversiondir
+
+if [ ! "$phpversiondir" ]; then
+  phpversion=$LATEST
+else
+  phpversion=$( getVersion $phpversiondir )
+fi
+
+if [ "$2" == "version" ]; then
+  echo $phpversion
+  exit 0
+fi
 
 container=`echo php"${phpversion/./""}"`
 
-docker exec -it -w $rel $container $@
+if [ ! "$phpversiondir" ]; then
+  docker run --rm --network="container:${container}" -it -v $(pwd):/var/www/html "wodby/php:${phpversion}-dev" $@
+else
+  docker run --rm --network="container:${container}" -it -v "${phpversiondir}:/var/www/html" "wodby/php:${phpversion}-dev" $@
+fi

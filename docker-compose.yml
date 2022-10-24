@@ -22,7 +22,7 @@ services:
       - ./nginx/conf.d:/etc/nginx/conf.d
       - ./vhosts:/etc/nginx/sites
       - ./sites:/var/www/html/
-      - ~/sites:/sites/
+      - ~/Sites:/Sites/
       - ./certs:/etc/nginx/certs
       - tmp:/tmp
   ######## PHP
@@ -96,18 +96,18 @@ services:
       - webdev
     env_file:
       - config/imgproxy.env
-  portainer:
-    container_name: portainer
-    image: portainer/portainer-ce:latest
-    restart: unless-stopped
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-      - portainer:/data
-    ports:
-      - "8000:8000"
-      - "9443:9443"
-    networks:
-      - webdev
+  # portainer:
+  #   container_name: portainer
+  #   image: portainer/portainer-ce:latest
+  #   restart: unless-stopped
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #     - portainer:/data
+  #   ports:
+  #     - "8000:8000"
+  #     - "9443:9443"
+  #   networks:
+  #     - webdev
   # busybox:
   #   container_name: busybox
   #   image: busybox
