@@ -17,7 +17,7 @@ getPhpVersionDir() {
 }
 
 getVersion() {
-  echo $( cat "$1/.php-version" )
+  echo $( cat "$1/.php-version" | head -1 )
 }
 
 phpversiondir=$( getPhpVersionDir )

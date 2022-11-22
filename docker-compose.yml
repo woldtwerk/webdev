@@ -25,6 +25,8 @@ services:
       - ~/Sites:/Sites/
       - ./certs:/etc/nginx/certs
       - tmp:/tmp
+    labels:
+      - com.centurylinklabs.watchtower.scope=webdev
   ######## PHP
   php81:
     container_name: php81
@@ -34,6 +36,8 @@ services:
       service: php
     env_file:
       - config/php81.env
+    labels:
+      - com.centurylinklabs.watchtower.scope=webdev
   php80:
     container_name: php80
     image: wodby/php:8.0-dev
@@ -42,6 +46,8 @@ services:
       service: php
     env_file:
       - config/php80.env
+    labels:
+      - com.centurylinklabs.watchtower.scope=webdev
   php74:
     container_name: php74
     image: wodby/php:7.4-dev
@@ -50,6 +56,8 @@ services:
       service: php
     env_file:
       - config/php74.env
+    labels:
+      - com.centurylinklabs.watchtower.scope=webdev
   php73:
     container_name: php73
     image: wodby/php:7.3-dev
@@ -58,6 +66,8 @@ services:
       service: php
     env_file:
       - config/php73.env
+    labels:
+      - com.centurylinklabs.watchtower.scope=webdev
   php72:
     container_name: php72
     image: wodby/php:7.2-dev
@@ -66,6 +76,8 @@ services:
       service: php
     env_file:
       - config/php72.env
+    labels:
+      - com.centurylinklabs.watchtower.scope=webdev
   ######## Database
   mariadb:
     container_name: mariadb
@@ -79,6 +91,8 @@ services:
       - webdev
     ports:
       - 3306:3306
+    labels:
+      - com.centurylinklabs.watchtower.scope=webdev
   ######## Misc
   mailhog:
     container_name: mailhog
@@ -88,6 +102,8 @@ services:
       - 1025:1025
     networks:
       - webdev
+    labels:
+      - com.centurylinklabs.watchtower.scope=webdev
   imgproxy:
     container_name: imgproxy
     image: darthsim/imgproxy:latest
@@ -96,18 +112,26 @@ services:
       - webdev
     env_file:
       - config/imgproxy.env
-  # portainer:
-  #   container_name: portainer
-  #   image: portainer/portainer-ce:latest
-  #   restart: unless-stopped
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #     - portainer:/data
-  #   ports:
-  #     - "8000:8000"
-  #     - "9443:9443"
-  #   networks:
-  #     - webdev
+    labels:
+      - com.centurylinklabs.watchtower.scope=webdev
+  portainer:
+    container_name: portainer
+    image: portainer/portainer-ce:latest
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer:/data
+    ports:
+      - 8000:8000
+      - 9443:9443
+    networks:
+      - webdev
+  watchtower:
+    container_name: watchtower
+    image: containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    command: --interval 86400 --cleanup --scope webdev
   # busybox:
   #   container_name: busybox
   #   image: busybox
