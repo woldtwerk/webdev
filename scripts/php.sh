@@ -1,7 +1,8 @@
 #!/bin/bash
 
 path=`pwd`
-rel="${path/`echo $HOME`/""}"
+# rel="${path/`echo $HOME`/""}"
+rel="${PWD}"
 LATEST="8.1"
 
 getPhpVersionDir() {
@@ -34,10 +35,21 @@ if [ "$2" == "version" ]; then
   exit 0
 fi
 
-container=`echo php"${phpversion/./""}"`
-
-if [ ! "$phpversiondir" ]; then
-  docker run --rm --network="container:${container}" -it -v $(pwd):/var/www/html "wodby/php:${phpversion}-dev" $@
+if [ "$1" == "phpunit" ]; then
+  echo $SIMPLETEST_BASE_URL
+  echo $SIMPLETEST_DB
+  docker run --rm --network=host --env SIMPLETEST_BASE_URL --env SIMPLETEST_DB -it -w $rel -v $HOME/Sites:${HOME}/Sites -v $HOME/.config/composer/:/home/wodby/.composer/ "wodby/php:${phpversion}-dev" /bin/bash
 else
-  docker run --rm --network="container:${container}" -it -v "${phpversiondir}:/var/www/html" "wodby/php:${phpversion}-dev" $@
+  container=`echo php"${phpversion/./""}"`
+  docker exec -w $rel $container $@
 fi
+
+# if [[ $rel == /Sites/* ]]; then
+#   docker exec -w $rel $container $@
+# else
+#   if [ ! "$phpversiondir" ]; then
+#     docker run --rm --network="container:${container}" -it -v $(pwd):/var/www/html -v $HOME/.config/composer/:/home/wodby/.composer/ -v $HOME/.ssh/:/home/wodby/.ssh/ "wodby/php:${phpversion}-dev" $@
+#   else
+#     docker run --rm --network="container:${container}" -it -v "${phpversiondir}:/var/www/html" -v $HOME/.config/composer/:/home/wodby/.composer/ -v $HOME/.ssh/:/home/wodby/.ssh/ "wodby/php:${phpversion}-dev" $@
+#   fi
+# fi

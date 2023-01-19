@@ -7,8 +7,19 @@ services:
     volumes:
       - ./sites:/var/www/html/
       - ~/Sites:/Sites/
-      - tmp:/tmp
+      - ~/Sites:${HOME}/Sites
+      - ~/Repositories:${HOME}/Repositories
+      # - tmp:/tmp
       - ./scripts/drush:/usr/bin/drush
-      - ~/.ssh/:/home/wodby/.ssh/
+      - ~/.ssh/id_rsa:/home/wodby/.ssh/id_rsa
+      # - ~/.ssh/config:/home/wodby/.ssh/config
+      - ~/.ssh/known_hosts:/home/wodby/.ssh/known_hosts
+      - ~/.config/composer/:/home/wodby/.composer/
+      # - ~/.composer/:/home/wodby/.composer/
     networks:
       - webdev
+    extra_hosts:
+      - host.docker.internal:host-gateway
+      # - d10.localhost:172.19.0.12
+    # external_links:
+    #   - nginx:d10.localhost

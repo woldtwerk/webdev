@@ -1,0 +1,3 @@
+#!/bin/bash
+
+$WEBDEV/scripts/php.sh drush $@
