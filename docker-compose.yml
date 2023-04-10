@@ -26,6 +26,7 @@ services:
       - ./sites:/var/www/html/
       - ~/Sites:/Sites/
       - ~/Sites:${HOME}/Sites
+      - ~/Spielwiese:${HOME}/Spielwiese
       - ~/Repositories:${HOME}/Repositories
       - ./certs:/etc/nginx/certs
       # - tmp:/tmp

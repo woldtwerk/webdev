@@ -41,7 +41,7 @@ if [ "$1" == "phpunit" ]; then
   docker run --rm --network=host --env SIMPLETEST_BASE_URL --env SIMPLETEST_DB -it -w $rel -v $HOME/Sites:${HOME}/Sites -v $HOME/.config/composer/:/home/wodby/.composer/ "wodby/php:${phpversion}-dev" /bin/bash
 else
   container=`echo php"${phpversion/./""}"`
-  docker exec -w $rel $container $@
+  docker exec -i -w $rel $container $@
 fi
 
 # if [[ $rel == /Sites/* ]]; then
